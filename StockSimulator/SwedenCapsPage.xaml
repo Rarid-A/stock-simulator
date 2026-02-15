@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StockSimulator.SwedenCapsPage"
+             Title="Sweden Caps"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="18" Spacing="14">
+            <Label Text="Sweden Market"
+                   FontSize="30"
+                   FontFamily="OpenSansSemibold"
+                   TextColor="{AppThemeBinding Light={StaticResource MidnightBlue}, Dark={StaticResource White}}" />
+
+            <Label Text="Large, Mid, and Small cap quotes"
+                   FontSize="14"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+
+            <Border StrokeShape="RoundRectangle 14"
+                    Padding="12"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                    <Picker Grid.Column="0"
+                            Title="Cap segment"
+                            ItemsSource="{Binding Segments}"
+                            SelectedItem="{Binding SelectedSegment}" />
+                    <Button Grid.Column="1" Text="Refresh" Clicked="OnRefreshClicked" />
+                </Grid>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 14"
+                    Padding="12"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding HeaderText}" FontSize="18" FontFamily="OpenSansSemibold" />
+                    <CollectionView ItemsSource="{Binding Quotes}" HeightRequest="520" EmptyView="Loading quotes...">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="2.5*,*,*" ColumnSpacing="8" Padding="0,6">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="0">
+                                        <Label Text="{Binding Name}" FontFamily="OpenSansSemibold" />
+                                        <Label Text="{Binding Symbol}" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="1" Text="{Binding PriceText}" HorizontalTextAlignment="Center" />
+                                    <Label Grid.Column="2" Text="{Binding ChangeText}" TextColor="{Binding ChangeColor}" HorizontalTextAlignment="End" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="{Binding UpdatedText}"
+                   FontSize="12"
+                   HorizontalOptions="End"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

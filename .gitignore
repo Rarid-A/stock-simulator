@@ -1,0 +1,51 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+out/
+artifacts/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+
+# Rider
+.idea/
+*.sln.iml
+
+# Logs and temp
+*.log
+*.tmp
+*.cache
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Test results
+TestResults/
+*.trx
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# MAUI / Xamarin / mobile
+*.apk
+*.aab
+*.apks
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+
+# Local environment files
+.env
+.env.*

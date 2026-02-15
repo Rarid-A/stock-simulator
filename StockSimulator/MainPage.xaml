@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StockSimulator.MainPage"
+             Title="Stock Simulator"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray950}}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="18" Spacing="14">
+            <Label Text="Stock Simulator"
+                   FontSize="30"
+                   FontFamily="OpenSansSemibold"
+                   TextColor="{AppThemeBinding Light={StaticResource MidnightBlue}, Dark={StaticResource White}}" />
+
+            <Label Text="Real-time paper trading on live prices"
+                   FontSize="14"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+
+            <Border StrokeShape="RoundRectangle 14"
+                    Padding="12"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="{Binding StatusMessage}"
+                           FontSize="13"
+                           TextColor="{Binding StatusColor}" />
+                    <Label Text="{Binding LastUpdatedText}"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Border Grid.Column="0"
+                        StrokeShape="RoundRectangle 14"
+                        Padding="12"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Cash" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+                        <Label Text="{Binding CashText}" FontSize="20" FontFamily="OpenSansSemibold" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Column="1"
+                        StrokeShape="RoundRectangle 14"
+                        Padding="12"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Net Worth" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+                        <Label Text="{Binding NetWorthText}" FontSize="20" FontFamily="OpenSansSemibold" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Border Grid.Column="0"
+                        StrokeShape="RoundRectangle 14"
+                        Padding="12"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Realized P/L" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+                        <Label Text="{Binding RealizedPnLText}"
+                               FontSize="19"
+                               FontFamily="OpenSansSemibold"
+                               TextColor="{Binding RealizedPnLColor}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Column="1"
+                        StrokeShape="RoundRectangle 14"
+                        Padding="12"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Total P/L" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+                        <Label Text="{Binding TotalPnLText}"
+                               FontSize="19"
+                               FontFamily="OpenSansSemibold"
+                               TextColor="{Binding TotalPnLColor}" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <Border StrokeShape="RoundRectangle 14"
+                    Padding="12"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Trade" FontSize="18" FontFamily="OpenSansSemibold" />
+
+                    <Grid ColumnDefinitions="*,110" ColumnSpacing="8">
+                        <Picker Grid.Column="0"
+                                Title="Symbol"
+                                ItemsSource="{Binding Symbols}"
+                            ItemDisplayBinding="{Binding DisplayName}"
+                            SelectedItem="{Binding SelectedInstrument}" />
+
+                        <Entry Grid.Column="1"
+                               Keyboard="Numeric"
+                               Placeholder="Qty"
+                               Text="{Binding QuantityInput}" />
+                    </Grid>
+
+                    <Label Text="{Binding QuoteText}" FontSize="13" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                        <Button Grid.Column="0"
+                                Text="Buy"
+                                IsEnabled="{Binding CanTrade}"
+                                Clicked="OnBuyClicked" />
+                        <Button Grid.Column="1"
+                                Text="Sell"
+                                IsEnabled="{Binding CanTrade}"
+                                Clicked="OnSellClicked" />
+                    </Grid>
+
+                        <Button Text="Reset Portfolio"
+                IsEnabled="{Binding CanResetPortfolio}"
+                            Clicked="OnResetPortfolioClicked" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 14"
+                    Padding="12"
+                    IsVisible="{Binding ShowRecoveryBanner}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Tertiary}}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{Binding RecoveryMessage}"
+                           FontFamily="OpenSansSemibold"
+                           TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark={StaticResource White}}" />
+                    <Button Text="Activate Emergency Funds"
+                            IsVisible="{Binding CanRecover}"
+                            Clicked="OnRecoverClicked" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 14"
+                    Padding="12"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Positions" FontSize="18" FontFamily="OpenSansSemibold" />
+                    <CollectionView ItemsSource="{Binding Positions}" HeightRequest="180" EmptyView="No open positions yet.">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="2*,*,*" Padding="0,6" ColumnSpacing="8">
+                                    <Label Grid.Column="0" Text="{Binding Symbol}" FontFamily="OpenSansSemibold" />
+                                    <Label Grid.Column="1" Text="{Binding QuantityText}" HorizontalTextAlignment="Center" />
+                                    <Label Grid.Column="2" Text="{Binding UnrealizedPnLText}" TextColor="{Binding UnrealizedPnLColor}" HorizontalTextAlignment="End" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 14"
+                    Padding="12"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Recent Trades" FontSize="18" FontFamily="OpenSansSemibold" />
+                    <CollectionView ItemsSource="{Binding Trades}" HeightRequest="200" EmptyView="No trades yet.">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="2*,*,*" Padding="0,6" ColumnSpacing="8">
+                                    <Label Grid.Column="0" Text="{Binding Summary}" />
+                                    <Label Grid.Column="1" Text="{Binding ValueText}" HorizontalTextAlignment="Center" />
+                                    <Label Grid.Column="2" Text="{Binding TimeText}" HorizontalTextAlignment="End" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
